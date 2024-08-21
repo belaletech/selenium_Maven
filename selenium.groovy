@@ -30,7 +30,7 @@ pipeline {
                         alwaysLinkToLastBuild: true,
                         keepAll: true,
                         reportDir: 'target/site',
-                        reportFiles: 'surefire-report.html',
+                        reportFiles: 'surefire-report/Extent.html',
                         reportName: 'Test Report'
                 ])
             }
