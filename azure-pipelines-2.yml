@@ -1,32 +1,27 @@
+
 trigger:
 - master
-
 pool:
-  name: Default
-  
+  name: 'Default' # Replace with the name of your local agent pool
+variables:
+  MAVEN_HOME: 'C:\Users\belalahmad\Downloads\apache-maven-3.9.8-bin\apache-maven-3.9.8' # Replace with your actual local Maven path
 
 steps:
+- script: echo "$(MAVEN_HOME)"
+  displayName: 'Show Maven Path'
+
 - task: Maven@4
   inputs:
     mavenPomFile: 'pom.xml'
-    goals: 'clean install'
-    publishJUnitResults: true
-    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    mavenOptions: '-Xmx1024m'
     javaHomeOption: 'JDKVersion'
-    mavenVersionOption: 'Default'
-    mavenAuthenticateFeed: false
-    effectivePomSkip: false
-    sonarQubeRunAnalysis: false
-# - task: Maven@4
-#   inputs:
-#     mavenPomFile: 'pom.xml'
-#     mavenOptions: '-Xmx3072m'
-#     javaHomeOption: 'JDKVersion'
-#     jdkVersionOption: '1.8'
-#     jdkArchitectureOption: 'x64'
-#     publishJUnitResults: true
-#     testResultsFiles: '**/surefire-reports/TEST-*.xml'
-#     goals: 'clean compile'
+    jdkVersionOption: '1.11'
+    jdkArchitectureOption: 'x64'
+    mavenVersionOption: 'Path'
+    mavenDirectory: '$(MAVEN_HOME)'  # Use your Maven installation path
+    goals: 'clean install'
+
+
 
 - script: mvn test -Dbrowser=localchrome
   displayName: 'Run Tests'
